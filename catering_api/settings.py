@@ -136,7 +136,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+# https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+
+TIME_ZONE = 'Asia/Karachi'
 
 USE_I18N = True
 
