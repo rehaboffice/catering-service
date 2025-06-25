@@ -41,6 +41,15 @@ INSTALLED_APPS = [
     # new
     'rest_framework',
     'corsheaders',
+
+    # apps added
+    'users',
+    'menus',
+    'orders',
+    'inventory',
+    'tracking',
+    'notifications',
+    'analytics',
 ]
 
 MIDDLEWARE = [
