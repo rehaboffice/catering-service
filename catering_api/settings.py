@@ -37,6 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # new
+    'rest_framework',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -47,7 +51,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # new
+    'corsheaders.middleware.CorsMiddleware',
 ]
+
+# Adding CORS settings
+CORS_ALLOWED_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'catering_api.urls'
 
@@ -72,10 +82,23 @@ WSGI_APPLICATION = 'catering_api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# Changing the database from SQLite to PostgreSQL
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'catering_db',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres123',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -120,3 +143,11 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Redis Settings
+
+REDIS_HOST = 'localhost'
+REDIS_PORT = 6379
+CELERY_BROKER_URL = f'redis://{REDIS_HOST}:{REDIS_PORT}/0'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
