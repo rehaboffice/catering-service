@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # new
     'rest_framework',
     'corsheaders',
+    'rest_framework_simplejwt.token_blacklist',
 
     # apps added
     'users',
@@ -64,6 +65,12 @@ MIDDLEWARE = [
     # new
     'corsheaders.middleware.CorsMiddleware',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
 
 # Adding CORS settings
 CORS_ALLOWED_ALL_ORIGINS = True
@@ -163,3 +170,6 @@ REDIS_PORT = 6379
 CELERY_BROKER_URL = f'redis://{REDIS_HOST}:{REDIS_PORT}/0'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = 'noreply@cateringservice.com'
