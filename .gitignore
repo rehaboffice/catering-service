@@ -1,2 +1,5 @@
 .venv
 __pycache__/
+client_secret_529268329558-q2eu3qiajj13e4c3ahut2nr08bps52qn.apps.googleusercontent.com.json
+migrations/
+.env

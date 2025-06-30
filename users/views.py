@@ -4,7 +4,7 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import RegisterSerializers
+from .serializers import RegisterSerializers, RequestOTPSerializer, RequestPasswordResetSerializer, ResetPasswordSerializer, VerifyOTPSerializer
 from .models import EmailVerificationToken, User
 from django.utils import timezone
 
@@ -48,3 +48,35 @@ class LogoutView(APIView):
             return Response({'message': 'Logged out successfully'})
         except Exception:
             return Response({'error': 'Invalid token.'}, status=400)
+
+class RequestPasswordResetView(APIView):
+    def post(self, request):
+        serializer = RequestPasswordResetSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Password reset link sent!"})
+        return Response(serializer.errors, status=400)
+    
+class ResetPasswordView(APIView):
+    def post(self, request):
+        serializer = ResetPasswordSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Password reset successful!"})
+        return Response(serializer.errors, status=400)
+    
+class RequestOTPView(APIView):
+    def post(self, request):
+        serializer = RequestOTPSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "OTP sent to your email"})
+        return Response(serializer.errors, status=400)
+
+class VerifyOTPView(APIView):
+    def post(self, request):
+        serializer = VerifyOTPSerializer(data=request.data)
+        if serializer.is_valid():
+            return Response({"message": "OTP verified"})
+        return Response(serializer.errors, status=400)
+    

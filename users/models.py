@@ -7,6 +7,8 @@ from django.utils import timezone
 import uuid
 from datetime import timedelta
 
+import random
+
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         if not email:
@@ -80,3 +82,16 @@ class PasswordResetToken(models.Model):
 
     def is_expired(self):
         return timezone.now() > self.expires_at
+    
+class MFADevice(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    opt = models.CharField(max_length=6, blank=True, null=True)
+    expires_at = models.DateTimeField(null=True, blank=True)
+
+    def generate_otp(self):
+        self.opt = str(random.randint(100000, 999999))
+        self.expires_at = timezone.now() + timedelta(minutes=5)
+        self.save()
+
+    def is_valid(self, opt):
+        return self.opt == opt and self.expires_at > timezone.now()
