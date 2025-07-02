@@ -24,6 +24,7 @@ class MenuItemViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         if self.request.method in ['POST', 'PUT', 'PATCH', 'DELETE']:
             return [IsCaterer()]
+        return [permissions.IsAuthenticatedOrReadOnly()]
 
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()

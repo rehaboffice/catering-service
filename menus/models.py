@@ -23,6 +23,7 @@ class MenuItem(models.Model):
     description = models.TextField(blank=True)
     price = models.DecimalField(max_digits=8, decimal_places=2)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
+    stock_quantity = models.PositiveIntegerField(default=100)
 
     def __str__(self):
         return self.name
