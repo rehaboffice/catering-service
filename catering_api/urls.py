@@ -55,5 +55,6 @@ urlpatterns += [
     path('api/', include('menus.urls')),
     path('api/admin/analytics/', include('analytics.urls')),
     path('api/', include('notifications.urls')),
+    path('api/', include('orders.urls')),
 
 ]

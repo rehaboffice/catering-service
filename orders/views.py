@@ -4,8 +4,14 @@ from django.shortcuts import render
 from rest_framework import viewsets, permissions
 from .models import Order
 from .serializers import OrderSerializer
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from rest_framework import status
+from .models import Order, OrderItem
+from users.permissions import IsCaterer
 
 class OrderViewSet(viewsets.ModelViewSet):
+    queryset = Order.objects.all()
     serializer_class = OrderSerializer
     permission_classes = [permissions.IsAuthenticated]
 
@@ -23,13 +29,6 @@ class OrderViewSet(viewsets.ModelViewSet):
         order.status != 'accepted'
         order.save()
         return Response({'message': 'Order confirmed', "status": order.status})
-
-
-from rest_framework.decorators import action
-from rest_framework.response import Response
-from rest_framework import status
-from .models import Order, OrderItem
-from users.permissions import IsCaterer
 
 class CatererOrderViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated, IsCaterer]
